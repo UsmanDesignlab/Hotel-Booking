@@ -6,11 +6,17 @@ import rateLimit from 'express-rate-limit';
 import dotenv from 'dotenv';
 import passport from 'passport';
 import sequelize from './src/database/Index';
-import hotelBooking from "./src/modules/hotelBooking/hotelBooking.routes"
-import Booking from "./src/modules/Booking/Booking.routes"
+import hotelBooking from "./src/modules/HotelBooking/hotelBooking.routes"
 import Hotel from "./src/modules/Hotel/hotel.routes"
 import User from "./src/modules/User/User.routes"
-import { isAdmin,isUser, isLoggedIn } from "./src/helper/isloggedIn"
+import hotelImages from "./src/modules/Hotel Images/hotelImages.routes"
+import Location from "./src/modules/Location/location.routes"
+import Area from "./src/modules/Area/area.routes"
+import Hall from "./src/modules/HallDetails/halldetails.routes"
+import All from "./src/modules/All Hall/all.routes"
+import Booking from "./src/modules/All Booking/booking.routes"
+import AllArea from "./src/modules/All Booking Area/bookingArea.routes"
+
 
 dotenv.config({ path: './config.env' });
 
@@ -33,18 +39,24 @@ app.use(passport.initialize());
 // Apply rate limiter to all API routes
 app.use('/api', limiter);
 app.use("/api", User)
-app.use("/api/booking", isLoggedIn, Booking)
-app.use("/api/hotel", isLoggedIn, Hotel)
-app.use("/api/hotelBooking", isLoggedIn,hotelBooking)
-
+app.use("/api/hotel", Hotel)
+app.use("/api/location", Location)
+app.use("/api/area", Area)
+app.use("/api/hall", Hall)
+app.use("/api/all", All)
+app.use("/api/booking", hotelBooking)
+app.use("/api/allBooking", Booking)
+app.use("/api/images", hotelImages)
+app.use("/api/allArea", AllArea)
 
 
 // Open route for testing
 app.get('/', (req, res) => {
   res.send('App is Running');
+
 });
 
-sequelize.sync({ force: true });
+sequelize.sync({ force: false });
 console.log('All models were synchronized successfully.');
 
 app.listen(process.env.PORT, () => {

@@ -14,6 +14,9 @@ export default class users{
     return await Users.create(all)
   }
 
+  public static async find(password:any){
+    return await Users.findOne({where:{password}})
+  }
   public static async Update(updated:any,query:any){
     return await Users.update(updated,query)
   }
@@ -21,5 +24,5 @@ export default class users{
   public static async Destroy(deleted:any){
     return await Users.destroy(deleted)
   }
-  
+ 
 }

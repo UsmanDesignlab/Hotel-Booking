@@ -1,13 +1,12 @@
 import { Request, Response } from "express";
-import appointment from "./hotelBooking.server";
-import { Hotel } from "../Hotel/hotel.Model";
-
+import booking from "./hotelBooking.server";
+import { hallOne } from "../HallDetails/halldetails.controller";
 
 export const all = async (req: Request, res: Response) => {
   try {
-    const data = await appointment.findAll();
+    const data = await booking.findAll();
     if (!data) {
-      return res.status(404).json({ message: "No Appointments found" });
+      return res.status(404).json({ message: "No Booking found" });
     }
     res.status(200).json(data);
   } catch (err) {
@@ -15,14 +14,13 @@ export const all = async (req: Request, res: Response) => {
     res.status(500).json({ message: "An error occurred", error: err });
   }
 };
-
 
 export const one = async (req: Request, res: Response) => {
   try {
-    let {id} =req.params
-    const data = await appointment.findOne(id);
+    const { id } = req.params;
+    const data = await booking.findOne(id);
     if (!data) {
-      return res.status(404).json({ message: "hotel not found" });
+      return res.status(404).json({ message: "Booking not found" });
     }
     res.status(200).json(data);
   } catch (err) {
@@ -31,93 +29,96 @@ export const one = async (req: Request, res: Response) => {
   }
 };
 
-
 export const add = async (req: any, res: Response) => {
   try {
-      let {name,phoneNumber,bookingDate,amount,hotelId} = req.body;
+    const { name, phoneNumber, bookingDate, amount, hallId } = req.body;
 
-      const one = await appointment.findOneDoctor(hotelId)
-      if (!one) {
-        return res.status(404).json({ message: "Hotel not found" });
-      }
-
-      const data = await appointment.Create({
-         name:name,
-         phoneNumber:phoneNumber,
-         bookingDate:bookingDate,
-         amount:amount,
-         hotelId:hotelId,
-         userId:req.user.id
-      });
-      
-      const existingBooking = await appointment.findOne({
-        where: { hotelId },
-      });
-  
-      if (existingBooking) {
-        return res.status(400).json({ message: "This hotel is already booked by another user" });
-      }
-      res.status(201).json(data);
+    // Find the hall by hallId
+    const hall = hallOne.find(h => h.id === hallId);
+    if (!hall) {
+      return res.status(404).json({ message: "Hall not found" });
     }
-   catch (err) {
+
+      // const existingBooking = await booking.findTwo(hallId);
+      // if (existingBooking) {
+      //   return res.status(400).json({ message: "This hall is already booked" });
+      // }
+
+    // Create a new booking entry
+    const bookingEntry = await booking.Create({
+      name,
+      phoneNumber,
+      bookingDate,
+      amount,
+      hallId,
+      userId: req.user.id,
+    });
+
+    hall.isAvailable = false;
+
+    res.status(201).json({
+      message: "Booking successful",
+      data: bookingEntry,
+    });
+  } catch (err) {
     console.error(err);
     res.status(500).json({ message: "An error occurred", error: err });
   }
 };
 
-
 export const update = async (req: Request, res: Response) => {
   try {
-    let {name,phoneNumber,bookingDate,amount,hotelId} = req.body;
+    const { name, phoneNumber, bookingDate, amount, hallId } = req.body;
     const { id } = req.params;
+
     if (!id) {
       return res.status(400).json({ message: "Missing id parameter" });
     }
 
-    const data = await appointment.findOne(id);
+    const data = await booking.findOne(id);
     if (!data) {
-      return res.status(404).json({ message: "Appointment not found" });
+      return res.status(404).json({ message: "Booking not found" });
     }
 
-    const one = await appointment.findOneDoctor(hotelId)
-    if (!one) {
-      return res.status(404).json({ message: "doctor not found" });
+    const hall = hallOne.find(h => h.id === hallId);
+    if (!hall) {
+      return res.status(404).json({ message: "Hall not found" });
     }
 
-
-    const updated = await appointment.Update(
-      {name,phoneNumber,bookingDate,amount,hotelId},
+    const updated = await booking.Update(
+      { name, phoneNumber, bookingDate, amount, hallId },
       { where: { id } }
     );
 
     if (!updated) {
-      return res.status(400).json({ message: "Failed to update event" });
+      return res.status(400).json({ message: "Failed to update booking" });
     }
 
-    res.status(200).json({ message: "Appointment updated successfully" });
+    res.status(200).json({ message: "Booking updated successfully" });
   } catch (err) {
     console.error(err);
-    res.status(500).json({ message: "An error occurred while updating the event", error: err });
+    res.status(500).json({ message: "An error occurred while updating the booking", error: err });
   }
 };
-
 
 export const destroy = async (req: Request, res: Response) => {
   try {
     const { id } = req.params;
 
-    const eventToDelete = await appointment.findOne(id);
+    const eventToDelete = await booking.findOne(id);
     if (!eventToDelete) {
-      return res.status(404).json({ message: "Appointment not found" });
+      return res.status(404).json({ message: "Booking not found" });
     }
 
-    const deleted = await appointment.destroy({ where: { id } });
+    await booking.destroy({ where: { id } });
 
-    if (!deleted) {
-      return res.status(400).json({ message: "Failed to delete event" });
+    // Optionally, mark the hall as available again
+    const hall = hallOne.find(h => h.id === eventToDelete.hallId);
+    if (hall) {
+      hall.isAvailable = true;
     }
 
-    res.status(200).json({ message: "Event deleted successfully" });
+    res.status(200).json({ message: "Booking deleted successfully" });
   } catch (err) {
     console.error(err);
     res.status(500).json({ message: "An error occurred", error: err });

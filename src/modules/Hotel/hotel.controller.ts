@@ -23,7 +23,7 @@ export const one = async (req: Request, res: Response) => {
   try {
     const data = await hotel.findOne(req.params.id);
     if (!data) {
-      return res.status(404).json({ message: "Patient not found" });
+      return res.status(404).json({ message: "Hotel not found" });
     }
     res.status(200).json(data);
   } catch (err) {
@@ -48,7 +48,7 @@ export const add = async (req:any, res: Response) => {
 
 
     if (decoded) {
-      const { hotelName, phoneNumber,capacity,location,category,amount,availableDate,session} = req.body;
+      const { hotelName, phoneNumber} = req.body;
  
 
       const existingDoctor = await hotel.findOneOne(req.user.id);
@@ -61,23 +61,15 @@ export const add = async (req:any, res: Response) => {
       const newDoctor = await hotel.AllCreates({
         hotelName,
         phoneNumber,
-        location,
-        capacity,
-        category,
-        session,
-        availableDate,
-        amount,
         userId: req.user.id
       });
       
 
       if (decoded.email)  
        {
-        const subject = `Welcome to the Registration for Hotel ${newDoctor.hotel_Name}`;
+        const subject = `Welcome to the Registration for Hotel ${newDoctor.hotelName}`;
         const text = `You have successfully registered as a Hotel.\n
           PhoneNumber: ${newDoctor.phoneNumber}\n
-          location: ${newDoctor.location}\n
-          category: ${newDoctor.category}\n
           `;
 
     
@@ -104,7 +96,7 @@ export const add = async (req:any, res: Response) => {
 
 export const update = async (req: Request, res: Response) => {
   try {
-    let {hotelName,phoneNumber,location,capacity,category,availableDate,amount,session} = req.body;
+    let {hotelName,phoneNumber} = req.body;
     const { id } = req.params;
 
     const data = await hotel.findOne(id);
@@ -113,7 +105,7 @@ export const update = async (req: Request, res: Response) => {
     }
 
     const updated = await hotel.Update(
-      { hotelName, phoneNumber,location,capacity,category,session,availableDate,amount},
+      { hotelName, phoneNumber},
       { where: { id } }
     );
 
@@ -151,7 +143,7 @@ export const destroy = async (req: Request, res: Response) => {
   }
 };
 
-export const allPatient = async (req: any, res: Response) => {
+export const allHotel = async (req: any, res: Response) => {
   try {
     const token = req.cookies.token;
     if (!token) {

@@ -2,19 +2,18 @@ import { Table, Column, Model, DataType } from 'sequelize-typescript';
 import { IsString, IsInt, IsDateString, IsOptional, IsPositive, Length, IsEmail, Min, Max, IsEnum } from 'class-validator';
 
 
-interface Doctors {
+interface Images {
   id: number;
-  name?: string;
-  phoneNumber?: string;
-  date?: string
-  userId?: number
+  hotelName?:string;
+  hotelImages?:string;
+  userId?:number;
 }
 
 @Table({
-  tableName: 'booking',
+  tableName: 'Image',
   timestamps: true,
 })
-export class Booking extends Model<Doctors> implements Doctors {
+export class Image extends Model<Images> implements Images {
   @Column({
     type: DataType.INTEGER,
     allowNull: false,
@@ -22,38 +21,29 @@ export class Booking extends Model<Doctors> implements Doctors {
     autoIncrement: true,
   })
   id!: number;
+  
+  @IsString()
+  @Column({
+    field: "hotel_name",
+    type: DataType.STRING,
+    allowNull: false,
+  })
+  hotelName?: string;
+
 
   @IsString()
   @Column({
     type: DataType.STRING,
     allowNull: false,
   })
-  name?: string;
-
-  @IsInt()
-  @Min(11)
-  @Max(11)
-  @IsOptional()
-  @Column({
-    type: DataType.STRING,
-    allowNull: true,
-  })
-  phoneNumber?: string;
-
-  @IsDateString()
-  @IsString()
-  @Column({
-    type: DataType.DATE,
-    allowNull: false,
-  })
-  date?: string;
+  hotelImages?: string;
 
 
   @Column({
-    field: "user_Id",
+    field: "user_id",
     type: DataType.INTEGER,
     allowNull: false,
   })
-  userId!: number;
+  userId?: number;
 
 }

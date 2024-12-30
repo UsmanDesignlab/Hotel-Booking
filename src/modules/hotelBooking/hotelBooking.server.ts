@@ -1,8 +1,8 @@
 import { hotelBooking} from "./hotelBooking.Model"
-import { Hotel } from "../Hotel/hotel.Model"
+import { Hall } from "../HallDetails/halldetails.model"
 
 
-export default class appointment {
+export default class booking {
 
   public static async findAll() {
     return await hotelBooking.findAll({})
@@ -25,8 +25,19 @@ export default class appointment {
     return await hotelBooking.destroy(deleted)
   }
 
-  public static async findOneDoctor(id: any) {
-    return await Hotel.findOne({ where: { id } })
+  public static async find(id:number) {
+    return await Hall.findOne({ where: { id } })
   }
 
+  public static async findTwo(hallId:number) {
+    return await hotelBooking.findOne({where:{hallId}});
+  }
+
+ public static async availability(hallId: string, isAvailable: boolean){
+    await Hall.update(
+      { isAvailable },
+      { where: { id: hallId } }
+    );
+  };
+  
 }

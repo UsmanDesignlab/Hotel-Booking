@@ -20,16 +20,16 @@ export async function isLoggedIn(req:any, res: Response, next: NextFunction) {
 
 
 
-export function isAdmin(req: any, res: Response, next: NextFunction) {
-  if (!req.user || req.user.role !== 'Admin') {
-    return res.status(403).send("Forbidden: Admins only");
+export function isOwner(req: any, res: Response, next: NextFunction) {
+  if (!req.user || req.user.role !== 'Owner') {
+    return res.status(403).send("Forbidden: Owner only");
   }
   next();
 }
 
-export function isUser(req: any, res: Response, next: NextFunction) {
-  if (!req.user || req.user.role !== 'User') {
-    return res.status(403).send("Forbidden: Staff only");
+export function isClient(req: any, res: Response, next: NextFunction) {
+  if (!req.user || req.user.role !== 'Client') {
+    return res.status(403).send("Forbidden:Client only");
   }
   next();
 }

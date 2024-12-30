@@ -1,34 +1,18 @@
 import { Table, Column, Model, DataType } from 'sequelize-typescript';
 import { IsString, IsInt, IsDateString, IsOptional, IsPositive, Length, IsEmail, Min, Max, IsEnum } from 'class-validator';
 
-enum UserCategory {
-  Premium = "Premium",
-  Simple = "Simple"
-}
-
-enum UserSession {
-  Morning = "Morning",
-  Evening = "Evening"
-}
-
-interface Patients {
+interface Hotels {
   id: number;
   hotelName?: string;
   phoneNumber?: string;
-  location?: string;
   userId?: number
-  category?: string;
-  capacity?: number;
-  amount?: number;
-  availableDate?: string;
-  session?: string;
 }
 
 @Table({
-  tableName: 'hotelDetails',
+  tableName: 'hotel',
   timestamps: true,
 })
-export class Hotel extends Model<Patients> implements Patients {
+export class Hotel extends Model<Hotels> implements Hotels {
   @Column({
     type: DataType.INTEGER,
     allowNull: false,
@@ -39,67 +23,20 @@ export class Hotel extends Model<Patients> implements Patients {
 
   @IsString()
   @Column({
-    field: "hotel_Name",
+    field: "hotel_name",
     type: DataType.STRING,
     allowNull: false,
   })
-  hotel_Name?: string;
+  hotelName?: string;
 
-  @IsInt()
-  @Min(11)
-  @Max(11)
-  @IsOptional()
+  @IsString()
   @Column({
+    field: "phone_number",
     type: DataType.STRING,
-    allowNull: true,
+    allowNull: false,
   })
   phoneNumber?: string;
 
-  @IsString()
-  @Column({
-    type: DataType.STRING,
-    allowNull: false,
-  })
-  location?: string;
-
-  @IsInt()
-  @Column({
-    type: DataType.INTEGER,
-    allowNull: false,
-  })
-  amount?: number;
-
-  @IsString()
-  @Column({
-    field: "available_Date",
-    type: DataType.DATE,
-    allowNull: false,
-  })
-  availableDate?: string;
-
-
-  @IsInt()
-  @Column({
-    type: DataType.INTEGER,
-    allowNull: false,
-  })
-  capacity?: number;
-
-  @IsEnum(UserCategory)
-  @IsString()
-  @Column({
-    type: DataType.ENUM(UserCategory.Premium, UserCategory.Simple),
-    allowNull: true,
-  })
-  category!: string;
-
-  @IsEnum(UserSession)
-  @IsString()
-  @Column({
-    type: DataType.ENUM(UserSession.Morning, UserSession.Evening),
-    allowNull: true,
-  })
-  session!: string;
 
   @Column({
     field: "user_Id",

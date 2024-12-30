@@ -2,8 +2,8 @@ import { Table, Column, Model, DataType } from 'sequelize-typescript';
 import { IsString, IsInt, IsDateString, IsOptional, IsPositive, Length, IsEmail, Min, Max, IsEnum } from 'class-validator';
 
 enum UserRole {
-  Admin = "Admin",
-  User="User",
+  Owner = "Owner",
+  Client = "Client",
 }
 
 
@@ -14,9 +14,9 @@ interface User {
   password: string;
   role: string;
   phoneNumber?: string;
-  otp?: string;
-  otpExpires?: Date;
-  isVerified: boolean;
+  // otp?: string;
+  // otpExpires?: Date;
+  // isVerified: boolean;
 }
 
 @Table({
@@ -40,6 +40,7 @@ export class Users extends Model<User> implements User {
   username?: string;
 
 
+
   @IsEmail()
   @Column({
     type: DataType.STRING,
@@ -60,7 +61,7 @@ export class Users extends Model<User> implements User {
   @IsEnum(UserRole)
   @IsString()
   @Column({
-    type: DataType.ENUM(UserRole.Admin, UserRole.User),
+    type: DataType.ENUM(UserRole.Owner, UserRole.Client),
     allowNull: true,
   })
   role!: string;
@@ -77,24 +78,24 @@ export class Users extends Model<User> implements User {
   phoneNumber?: string;
 
 
-  @IsString()
-  @Column({
-    type: DataType.STRING,
-    allowNull: true,
-  })
-  otp?: string;
+  // @IsString()
+  // @Column({
+  //   type: DataType.STRING,
+  //   allowNull: true,
+  // })
+  // otp?: string;
 
-  @IsDateString()
-  @Column({
-    type: DataType.DATE,
-    allowNull: true,
-  })
-  otpExpires?: Date;
+  // @IsDateString()
+  // @Column({
+  //   type: DataType.DATE,
+  //   allowNull: true,
+  // })
+  // otpExpires?: Date;
 
-  @Column({
-    type: DataType.BOOLEAN,
-    allowNull: false,
-    defaultValue: false,
-  })
-  isVerified!: boolean;
+  // @Column({
+  //   type: DataType.BOOLEAN,
+  //   allowNull: false,
+  //   defaultValue: false,
+  // })
+  // isVerified!: boolean;
 }
