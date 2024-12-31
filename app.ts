@@ -59,6 +59,6 @@ app.get('/', (req, res) => {
 sequelize.sync({ force: false });
 console.log('All models were synchronized successfully.');
 
-app.listen(process.env.PORT, () => {
+app.listen(process.env.PORT || 4000, () => {
   console.log(`App is running on port ${process.env.PORT}`);
 });
