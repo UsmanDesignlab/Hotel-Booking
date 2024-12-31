@@ -12,6 +12,7 @@ import dotenv from 'dotenv';
 
 dotenv.config({ path: ".env" });
 
+console.log('DB Host:', process.env.db_HOST);
 const sequelize = new Sequelize(process.env.db_NAME as string, process.env.db_USER as string, process.env.db_PASSWORD, {
   host: process.env.db_HOST,
   logging: false,
