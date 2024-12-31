@@ -1,3 +1,4 @@
+
 import { Sequelize } from "sequelize-typescript";
 import { Users } from "../modules/User/User.Model";
 import { Hotel } from "../modules/Hotel/hotel.Model";
@@ -7,10 +8,9 @@ import { Email } from "../modules/User/user.emailmodel";
 import { Area } from "../modules/Area/area.model";
 import { Location } from "../modules/Location/location.model";
 
-
 import dotenv from 'dotenv';
+dotenv.config(); // Load .env file
 
-dotenv.config({ path: "../../.env" });
 
 console.log('DB Host:', process.env.db_HOST);
 const sequelize = new Sequelize(process.env.db_NAME as string, process.env.db_USER as string, process.env.db_PASSWORD, {
