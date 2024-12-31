@@ -4,7 +4,8 @@
     "module": "commonjs",
     "esModuleInterop": true, // Add this line
     "experimentalDecorators": true,
-    "strict": true
+    "strict": true,
+    "outDir": "./dist",
   }
 }
 

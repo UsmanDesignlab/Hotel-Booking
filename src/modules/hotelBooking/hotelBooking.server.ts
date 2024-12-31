@@ -1,4 +1,4 @@
-import { hotelBooking} from "./hotelBooking.Model"
+import { hotelBooking } from "../HotelBooking/hotelBooking.Model";
 import { Hall } from "../HallDetails/halldetails.model"
 
 

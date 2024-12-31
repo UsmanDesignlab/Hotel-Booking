@@ -6,7 +6,7 @@ import rateLimit from 'express-rate-limit';
 import dotenv from 'dotenv';
 import passport from 'passport';
 import sequelize from './src/database/Index';
-import hotelBooking from "./src/modules/HotelBooking/hotelBooking.routes"
+import hotelBooking from "./src/modules/HotelBooking/hotelBooking.routes";
 import Hotel from "./src/modules/Hotel/hotel.routes"
 import User from "./src/modules/User/User.routes"
 import hotelImages from "./src/modules/Hotel Images/hotelImages.routes"
