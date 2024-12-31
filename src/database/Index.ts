@@ -11,11 +11,11 @@ import { Location } from "../modules/Location/location.model";
 import dotenv from 'dotenv';
 require('dotenv').config();
 
-console.log('DB Host:', process.env.db_HOST);
-console.log('DB Name:', process.env.db_NAME);
+console.log('DB Host:', process.env.db_Host);
+console.log('DB Name:', process.env.db_Name);
 console.log('DB User:', process.env.db_USER);
-const sequelize = new Sequelize(process.env.db_NAME as string, process.env.db_USER as string, process.env.db_PASSWORD, {
-  host: process.env.db_HOST,
+const sequelize = new Sequelize(process.env.db_Name as string, process.env.db_USER as string, process.env.db_PASSWORD, {
+  host: process.env.db_Host,
   logging: false,
   port: 3306,
   dialect: 'mysql',
