@@ -9,7 +9,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-const hotelBooking_Model_1 = require("../HotelBooking/hotelBooking.Model");
+const hotelBooking_Model_1 = require("./hotelBooking.Model");
 const halldetails_model_1 = require("../HallDetails/halldetails.model");
 class booking {
     static findAll() {

@@ -18,7 +18,7 @@ import Booking from "./src/modules/All Booking/booking.routes"
 import AllArea from "./src/modules/All Booking Area/bookingArea.routes"
 
 
-dotenv.config({ path: './config.env' });
+dotenv.config({ path: '.env' });
 
 const limiter = rateLimit({
   max: 50,

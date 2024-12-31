@@ -10,14 +10,14 @@ import { Location } from "../modules/Location/location.model";
 
 import dotenv from 'dotenv';
 
-dotenv.config({ path: "./config.env" });
+dotenv.config({ path: ".env" });
 
 const sequelize = new Sequelize(process.env.db_NAME as string, process.env.db_USER as string, process.env.db_PASSWORD, {
   host: process.env.db_HOST,
   logging: false,
-  port :3306,
+  port: 3306,
   dialect: 'mysql',
-  models: [Users, Hotel, hotelBooking, Image, Email, Area,Location]
+  models: [Users, Hotel, hotelBooking, Image, Email, Area, Location]
 });
 
 Users.hasOne(Hotel, { foreignKey: "userId" })

@@ -21,7 +21,7 @@ const halldetails_routes_1 = __importDefault(require("./src/modules/HallDetails/
 const all_routes_1 = __importDefault(require("./src/modules/All Hall/all.routes"));
 const booking_routes_1 = __importDefault(require("./src/modules/All Booking/booking.routes"));
 const bookingArea_routes_1 = __importDefault(require("./src/modules/All Booking Area/bookingArea.routes"));
-dotenv_1.default.config({ path: './config.env' });
+dotenv_1.default.config({ path: '.env' });
 const limiter = (0, express_rate_limit_1.default)({
     max: 50,
     windowMs: 60 * 60 * 1000,
@@ -53,6 +53,6 @@ app.get('/', (req, res) => {
 });
 Index_1.default.sync({ force: false });
 console.log('All models were synchronized successfully.');
-app.listen(process.env.PORT, () => {
+app.listen(process.env.PORT || 4000, () => {
     console.log(`App is running on port ${process.env.PORT}`);
 });

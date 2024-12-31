@@ -10,13 +10,13 @@ const hotelBooking_Model_1 = require("../modules/HotelBooking/hotelBooking.Model
 const hotelImages_model_1 = require("../modules/Hotel Images/hotelImages.model");
 const user_emailmodel_1 = require("../modules/User/user.emailmodel");
 const area_model_1 = require("../modules/Area/area.model");
-// import { Hall } from "../modules/HallDetails/halldetails.model";
 const location_model_1 = require("../modules/Location/location.model");
 const dotenv_1 = __importDefault(require("dotenv"));
-dotenv_1.default.config({ path: "./config.env" });
+dotenv_1.default.config({ path: ".env" });
 const sequelize = new sequelize_typescript_1.Sequelize(process.env.db_NAME, process.env.db_USER, process.env.db_PASSWORD, {
     host: process.env.db_HOST,
     logging: false,
+    port: 3306,
     dialect: 'mysql',
     models: [User_Model_1.Users, hotel_Model_1.Hotel, hotelBooking_Model_1.hotelBooking, hotelImages_model_1.Image, user_emailmodel_1.Email, area_model_1.Area, location_model_1.Location]
 });
@@ -24,13 +24,10 @@ User_Model_1.Users.hasOne(hotel_Model_1.Hotel, { foreignKey: "userId" });
 User_Model_1.Users.hasOne(hotelBooking_Model_1.hotelBooking, { foreignKey: "userId" });
 User_Model_1.Users.hasOne(hotelImages_model_1.Image, { foreignKey: "userId" });
 User_Model_1.Users.hasOne(location_model_1.Location, { foreignKey: "userId" });
-// Users.hasOne(Hall, { foreignKey: "userId" })
 User_Model_1.Users.hasOne(area_model_1.Area, { foreignKey: "userId" });
 hotel_Model_1.Hotel.hasMany(location_model_1.Location, { foreignKey: "hotelId" });
 location_model_1.Location.hasMany(area_model_1.Area, { foreignKey: "locationId" });
-// Area.hasMany(Hall, { foreignKey: "areaId" })
 hotel_Model_1.Hotel.hasOne(hotelBooking_Model_1.hotelBooking, { foreignKey: "hotelId" });
-// Hall.hasOne(hotelBooking, { foreignKey: "hallId" })
 try {
     sequelize.authenticate();
     console.log('Connection has been established successfully.');
