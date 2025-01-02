@@ -5,6 +5,7 @@ import allBooking from "./booking.service";
 
 export const one = async (req: Request, res: Response) => {
   try {
+    // Yes Changes
     let {id:userId} = req.params 
     const data = await allBooking.findOne(userId);
     if (!data) {
