@@ -21,7 +21,7 @@ export const all = async (req: Request, res: Response) => {
   try {
     const data = await allBooking.findAll();
     if (!data) {
-      return res.status(404).json({ message: "No Booking found" });
+      return res.status(404).json({ message: "No Booking found Yet" });
     }
     res.status(200).json(data);
   } catch (err) {
