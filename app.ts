@@ -26,7 +26,7 @@ const limiter = rateLimit({
   message: 'Too many attempts. Please wait for one hour.',
 });
 
-const app = express();
+const app = express()
 
 // Middleware setup
 app.use(methodOverride('_method'));
